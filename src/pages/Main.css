@@ -288,4 +288,15 @@
     .result-data > p {
         margin-bottom: 30vh;
     }
+    .main .cards {
+        /* display: -ms-grid; */
+        display: flex;
+        flex-direction: column;
+        /* -ms-grid-columns: 1fr 15px 1fr 15px 1fr 15px 1fr; */
+        /* grid-template-columns: repeat(1, 1fr); */
+        gap: 15px;
+        padding: 20px;
+        overflow-x: auto;
+        margin-bottom: 10rem;
+    }
 }
