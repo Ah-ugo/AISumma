@@ -32,7 +32,7 @@ const Main = () => {
     return (
         <main className="main">
             <nav className="nav">
-                <p>Gemini</p>
+                <p className='text-2xl font-semibold'>AISumma</p>
                 {/* <img src={assets.user_icon} alt=""/> */}
             </nav>
             <div className="main-container">
@@ -40,7 +40,7 @@ const Main = () => {
                 {!showResult
                     ? <>
                         <div className="greet">
-                            <p><span>Hello, Dev</span></p>
+                            <p><span>Hello, </span></p>
                             <p>How can I help you today?</p>
                         </div>
                         <div className="cards">
@@ -86,7 +86,7 @@ const Main = () => {
                     </div>
                 }
                 <div className="main-bottom">
-                    <div className="search-box">
+                    <div className="search-box mb-10">
                         <textarea rows={rows} onChange={(e) => setInput(e.target.value)}
                                   onKeyUp={(e) => {
                                       if (e.key === 'Enter') {
@@ -103,10 +103,10 @@ const Main = () => {
                             <button type="submit" onClick={() => onSent()}><BiSend/></button>
                         </div>
                     </div>
-                    <p className="bottom-info">
+                    {/* <p className="bottom-info">
                         Gemini may display inaccurate info, including about people, so double-check its responses.
                         <a href="#">Your privacy and Gemini Apps</a>
-                    </p>
+                    </p> */}
                 </div>
             </div>
         </main>
