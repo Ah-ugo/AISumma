@@ -6,9 +6,11 @@ import Home from './pages/Home';
 import AuthContainer from './pages/AuthContainer';
 import PageTemp from './pages/PageTemp';
 import { ChakraProvider } from '@chakra-ui/react';
+import ContextProvider from './context/Context';
 
 function App() {
   return (
+    <ContextProvider>
     <ChakraProvider>
     <div>
       <BrowserRouter>
@@ -23,6 +25,7 @@ function App() {
       </BrowserRouter>
     </div>
     </ChakraProvider>
+    </ContextProvider>
   );
 }
 

@@ -17,13 +17,13 @@ const HomeLayout = ({children}) => {
 
   return (
     <div className='flex h-screen'>
-    <div className={`relative bg-white ${isSidebarOpen ? '' : 'hidde'}`}>
-      {/* <button
+    <div className={`relative z-50  bg-white ${isSidebarOpen ? '' : 'hidde'}`}>
+      <button
         className="absolute text-white text-[16px] top-4 left-4 cursor-pointer lg:hidden"
         onClick={toggleSidebar}
       >
         <i className="bi bi-list px-2 bg-gray-900 rounded-md"></i>
-      </button> */}
+      </button>
       
       <div className={`sidebar fixed h-screen lg:static top-0 bottom-0 lg:left-0 p-2 w-[300px] overflow-y-auto text-center bg-gray-900 ${isSidebarOpen ? '' : 'hidden'}`}>
         <div className="text-gray-100 text-xl">
