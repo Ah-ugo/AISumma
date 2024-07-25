@@ -1,73 +1,30 @@
-import React from "react";
-// import "../../style.css"
-function SignInForm() {
-  const [state, setState] = React.useState({
-    email: "",
-    password: ""
-  });
-  const handleChange = evt => {
-    const value = evt.target.value;
-    setState({
-      ...state,
-      [evt.target.name]: value
-    });
-  };
+import React from 'react';
 
-  const handleOnSubmit = evt => {
-    evt.preventDefault();
-
-    const { email, password } = state;
-    alert(`You are login with email: ${email} and password: ${password}`);
-
-    for (const key in state) {
-      setState({
-        ...state,
-        [key]: ""
-      });
-    }
-  };
-
-  return (
-    <div className="form-container sign-in-container">
-      <form onSubmit={handleOnSubmit}>
-        <h1 className="hidden sm:block">Sign in</h1>
-        <div className="block sm:hidden">
-        <h1>Welcome Back!</h1>
-              <p>
-                To keep connected with us please login with your personal info
-              </p>
+function SignIn() {
+    return (
+        <div className="form-container sign-in-container">
+            <form action="#" method="post">
+                <h1>Sign In</h1>
+                <div className="social-container">
+                    <a href="#" className="social" aria-label="Sign in with Facebook">
+                        <i className="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" className="social" aria-label="Sign in with Google">
+                        <i className="fab fa-google-plus-g"></i>
+                    </a>
+                    <a href="#" className="social" aria-label="Sign in with LinkedIn">
+                        <i className="fab fa-linkedin-in"></i>
+                    </a>
+                </div>
+                <span>or access your account</span>
+                <input type="email" placeholder="Email" aria-label="Email" required />
+                <input type="password" placeholder="Password" aria-label="Password" required />
+                <a href="#" aria-label="Forgot your password?">Forgot your password?</a>
+                <button type="submit">Sign In</button>
+            </form>
         </div>
-        {/* <div className="social-container">
-          <a href="#" className="social">
-            <i className="fab fa-facebook-f" />
-          </a>
-          <a href="#" className="social">
-            <i className="fab fa-google-plus-g" />
-          </a>
-          <a href="#" className="social">
-            <i className="fab fa-linkedin-in" />
-          </a>
-        </div> */}
-        {/* <span>or use your account</span> */}
-        <input
-          type="email"
-          placeholder="Email"
-          name="email"
-          value={state.email}
-          onChange={handleChange}
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={state.password}
-          onChange={handleChange}
-        />
-        <a href="#">Forgot your password?</a>
-        <button className="btn">Sign In</button>
-      </form>
-    </div>
-  );
+    );
 }
 
-export default SignInForm;
+export default SignIn;
+

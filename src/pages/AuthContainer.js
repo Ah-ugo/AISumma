@@ -1,53 +1,44 @@
-import React, { useState } from "react";
-import "../style.css"
-import SignInForm from "../components/AuthForms/SignIn";
-import SignUpForm from "../components/AuthForms/SignUp";
+import React, { useState } from 'react';
+import '../style.css';
+import SignIn from '../components/AuthForms/SignIn';
+import SignUp from '../components/AuthForms/SignUp';
 
-export default function AuthContainer() {
-  const [type, setType] = useState("signIn");
-  const handleOnClick = text => {
-    if (text !== type) {
-      setType(text);
-      return;
-    }
-  };
-  const containerClass =
-    "container " + (type === "signUp" ? "right-panel-active" : "");
-  return (
-    <div className="wrapper">
-      {/* <h2>Sign in/up Form</h2> */}
-      <div className={containerClass} id="container">
-        <SignUpForm />
-        <SignInForm />
-        <div className="overlay-container">
-          <div className="overlay">
-            <div className="overlay-panel overlay-left ">
-              <h1>Welcome Back!</h1>
-              <p>
-                To keep connected with us please login with your personal info
-              </p>
-              <button
-                className="ghost"
-                id="signIn"
-                onClick={() => handleOnClick("signIn")}
-              >
-                Sign In
-              </button>
+function AuthContainer() {
+    const [isSignIn, setIsSignIn] = useState(true);
+
+    const toggleForm = () => {
+        setIsSignIn(!isSignIn);
+    };
+
+    return (
+        <div className={`container ${!isSignIn ? 'right-panel-active' : ''}`} id="container">
+            {/* Sign Up Form */}
+            <div className={`form-container sign-up-container ${!isSignIn ? 'active' : ''}`}>
+                <SignUp />
             </div>
-            <div className="overlay-panel overlay-right">
-              <h1>Hello, Friend!</h1>
-              <p>Enter your personal details and start journey with us</p>
-              <button
-                className="ghost "
-                id="signUp"
-                onClick={() => handleOnClick("signUp")}
-              >
-                Sign Up
-              </button>
+
+            {/* Sign In Form */}
+            <div className={`form-container sign-in-container ${isSignIn ? 'active' : ''}`}>
+                <SignIn />
             </div>
-          </div>
+
+            {/* Overlay Container */}
+            <div className="overlay-container">
+                <div className="overlay">
+                    <div className="overlay-panel overlay-left">
+                        <h1>Begin Your Journey</h1>
+                        <p>Login to access your information and stay engaged.</p>
+                        <button className="ghost" id="signIn" onClick={toggleForm}>Sign In</button>
+                    </div>
+                    <div className="overlay-panel overlay-right">
+                        <h1>Nice to Meet You!</h1>
+                        <p>Get started by entering your details and explore.</p>
+                        <button className="ghost" id="signUp" onClick={toggleForm}>Sign Up</button>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 }
+
+export default AuthContainer;
