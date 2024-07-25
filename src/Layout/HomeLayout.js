@@ -24,7 +24,7 @@ const HomeLayout = ({children}) => {
 
   return (
     <div className='flex h-screen'>
-    <div className={`relative bg-white ${isSidebarOpen ? '' : 'hidde'}`}>
+    <div className={`relative z-50  bg-white ${isSidebarOpen ? '' : 'hidde'}`}>
       <button
         className="absolute text-white text-[16px] top-4 left-4 cursor-pointer lg:hidden"
         onClick={toggleSidebar}
