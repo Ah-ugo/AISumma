@@ -94,7 +94,7 @@ const HomeLayout = ({children}) => {
     
       </div>
     </div>
-    <div className='flex-grow p-4 overflow-y-auto'>
+    <div className=''>
      <Outlet/>
       </div>
     </div>
