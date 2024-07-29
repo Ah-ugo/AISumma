@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 // import 'tailwindcss/tailwind.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { Outlet } from 'react-router-dom';
+import { isMobile } from 'react-device-detect';
 
 const HomeLayout = ({children}) => {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
@@ -14,6 +15,12 @@ const HomeLayout = ({children}) => {
   const toggleDropdown = () => {
     setDropdownOpen(!isDropdownOpen);
   };
+
+  useEffect(()=>{
+    if(isMobile){
+      setSidebarOpen(false)
+    }
+  },[])
 
   return (
     <div className='flex h-screen'>
@@ -87,7 +94,7 @@ const HomeLayout = ({children}) => {
     
       </div>
     </div>
-    <div className='flex-grow p-4 overflow-y-auto'>
+    <div className=''>
      <Outlet/>
       </div>
     </div>
