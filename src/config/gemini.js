@@ -18,6 +18,10 @@ import {
     HarmCategory,
     HarmBlockThreshold,
 } from "@google/generative-ai";
+import { useContext } from "react";
+import pdfToText from "react-pdftotext";
+import ContextProvider from "../context/Context";
+// import {VertexAI} from "@google-cloud/vertexai"
 
 
 const apiKey = "AIzaSyBtCGKVCWhLbQd_xVeQM2Pxduibb-uwbiE";
@@ -25,8 +29,9 @@ const apiKey = "AIzaSyBtCGKVCWhLbQd_xVeQM2Pxduibb-uwbiE";
 // const apiKey = process.env.GEMINI_API_KEY;
 const genAI = new GoogleGenerativeAI(apiKey);
 
+
 const model = genAI.getGenerativeModel({
-    model: "gemini-1.5-pro-latest",
+    model: "gemini-1.5-flash",
 });
 
 const generationConfig = {
@@ -56,14 +61,16 @@ const safetySettings = [
     },
 ];
 
-async function run(prompt) {
+async function run(prompt, pdfTxt) {
+    console.log(prompt, pdfToText,"hula baloo")
+
     const chatSession = model.startChat({
         generationConfig,
         safetySettings,
         history: [],
     });
 
-    const result = await chatSession.sendMessage(prompt);
+    const result = await chatSession.sendMessage(prompt + " " + pdfTxt);
     console.log(result.response.text());
     return result.response.text();
 }

@@ -1,7 +1,14 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import ContextProvider, { Context } from '../context/Context'
+// import PdfToImages from '../components/PdfToImageConverter'
 
 export default function Home() {
-    const [file, setFile] = useState()
+    // const [file, setFile] = useState()
+    const {file, setFile, onSent} = useContext(Context)
+
+    // useEffect(()=>{
+    //   onSent()
+    // }, [file, setFile])
   return (
     <div className='w-full h-screen flex flex-col items-center justify-center'>
         <span className='font-bold text-[15px]'>Upload PDF Document</span>
@@ -13,7 +20,7 @@ export default function Home() {
   <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M10 3v4a1 1 0 0 1-1 1H5m14-4v16a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V7.914a1 1 0 0 1 .293-.707l3.914-3.914A1 1 0 0 1 9.914 3H18a1 1 0 0 1 1 1Z"/>
 </svg>
 
-          <span className="text-gray-500">{file.name}</span>
+          <span className="text-gray-500">{file?.name}</span>
         </div>
       :<svg xmlns="http://www.w3.org/2000/svg" class="w-11 mb-2 fill-gray-500" viewBox="0 0 32 32">
         <path
@@ -29,6 +36,7 @@ export default function Home() {
       <p class="text-xs font-medium text-gray-400 mt-2">Only PDF's are Allowed.</p>
     </label>
         </main>
+        {/* <PdfToImages pdfFile={"https://www.kdkce.edu.in/pdf/ADSD_VII_Sem.pdf"}/> */}
     </div>
   )
 }

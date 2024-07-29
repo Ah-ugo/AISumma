@@ -7,6 +7,7 @@ import AuthContainer from './pages/AuthContainer';
 import PageTemp from './pages/PageTemp';
 import { ChakraProvider } from '@chakra-ui/react';
 import ContextProvider from './context/Context';
+import TestImage from './pages/TestImage';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route element={<HomeLayout/>}>
           <Route path='/' element={<Home/>}/>
           <Route path='/home' element={<PageTemp/>}/>
+          <Route path='/img' element={<TestImage/>}/>
         </Route>
 
       </Routes>
