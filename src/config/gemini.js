@@ -62,7 +62,7 @@ const safetySettings = [
 ];
 
 async function run(prompt, pdfTxt) {
-    console.log(prompt, pdfToText,"hula baloo")
+    console.log(prompt, pdfTxt,"hula baloo")
 
     const chatSession = model.startChat({
         generationConfig,

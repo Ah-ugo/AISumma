@@ -75,7 +75,7 @@ const ContextProvider = (props) => {
         try {
           const text = await pdfToText(file);
           console.log(text, "pdf text");
-          localStorage.setItem("text", text)
+          localStorage.setItem("text", text);
           setPdfTxt(text);
       
           setResultData("");
@@ -84,14 +84,17 @@ const ContextProvider = (props) => {
       
           let response;
           if (prompt && text) {
-            response = await runChat(prompt, localStorage.getItem("text"));
+            response = await runChat(prompt, text);
             setRecentPrompt(prompt + " " + text);
-            setResultData(response)
+            setResultData(response);
             console.log(prompt + " " + text, "Hula baloo");
+          } else if (prompt) {
+            // Handle case where pdfTxt is not available but prompt exists
+            console.error("pdfTxt is not available");
           } else {
             setPrevPrompts(prev => [...prev, input]);
             setRecentPrompt(input);
-            response = await runChat(input, localStorage.getItem("text")); // Assuming text is available here
+            response = await runChat(input, text); // Assuming text is available here
             console.log(response, "resp===")
           }
       
