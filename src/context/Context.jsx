@@ -83,6 +83,10 @@ const ContextProvider = (props) => {
           setShowResult(true);
       
           let response;
+          if(!prompt){
+            prompt = "Assuming you are an examiner, interviewer, etc and I am preparing for an exam, interview, etc summarize "
+            // setInput(prompt)
+          }
           if (prompt && text) {
             response = await runChat(prompt, text);
             setRecentPrompt(prompt + " " + text);
@@ -139,8 +143,7 @@ const ContextProvider = (props) => {
         file,
         setFile,
         pdfTxt,
-        setPdfTxt
-
+        setPdfTxt,
     }
     return (
         <Context.Provider value={contextValue}>

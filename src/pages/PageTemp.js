@@ -31,16 +31,26 @@ const Main = () => {
             resultRef.current.scrollTop = resultRef.current.scrollHeight;
         }
     }, [resultData]);
+    // useEffect(()=>{
+    //     if (input && pdfTxt) {
+    //         onSent();
+    //       }
+    // },[input, pdfTxt])
 
     return (
-        <main className="main">
+        <main className="main w-full">
             <nav className="nav">
                 <p className='text-2xl font-semibold'>AISumma</p>
                 {/* <img src={assets.user_icon} alt=""/> */}
             </nav>
-            <div className='w-full h-screen flex flex-col items-center justify-center'>
-        <span className='font-bold text-[15px]'>Upload PDF Document</span>
-        <main className='w-full h-screen max-w-lg flex items-center justify-center'>
+            
+            <div className="main-containe">
+
+                {!showResult
+                    ? <>
+                        <div className='w-full'>
+        {/* <span className='font-bold text-[15px]'>Upload PDF Document</span> */}
+        <main className='w-full max-w-lg flex items-center justify-center'>
         <label for="uploadFile1"
       class="bg-white text-gray-500 font-semibold text-base rounded w-full h-52 flex flex-col items-center justify-center cursor-pointer border-2 border-gray-300 border-dashed mx-auto font-[sans-serif]">
       {file ? <div className="mt-4 flex items-center">
@@ -66,41 +76,12 @@ const Main = () => {
         </main>
         {/* <PdfToImages pdfFile={"https://www.kdkce.edu.in/pdf/ADSD_VII_Sem.pdf"}/> */}
     </div>
-            <div className="main-container">
-
-                {!showResult
-                    ? <>
-                        <div className="greet">
-                            <p><span>Hello, </span></p>
-                            <p>How can I help you today?</p>
-                        </div>
-                        <div className="cards">
-                            <div className="card"
-                                 onClick={() => setInput("Suggest beautiful places to see on an upcoming road trip")}>
-                                <p>Suggest beautiful places to see on an upcoming road trip</p>
-                                {/* <img src={assets.compass_icon} alt=""/> */}
-                            </div>
-                            <div className="card"
-                                 onClick={() => setInput("Briefly summarize this concept: urban planning")}>
-                                <p>Briefly summarize this concept: urban planning</p>
-                                {/* <img src={assets.bulb_icon} alt=""/> */}
-                            </div>
-                            <div className="card"
-                                 onClick={() => setInput("Brainstorm team bonding activities for our work retreat")}>
-                                <p>Brainstorm team bonding activities for our work retreat</p>
-                                {/* <img src={assets.message_icon} alt=""/> */}
-                            </div>
-                            <div className="card" onClick={() => setInput("Tell me about React js and React native")}>
-                                <p>Tell me about React js and React native</p>
-                                {/* <img src={assets.code_icon} alt=""/> */}
-                            </div>
-                        </div>
                     </>
                     :
                     <div className='result' ref={resultRef}>
                         <div className="result-title">
                             {/* <img src={assets.user_icon} alt=""/> */}
-                            <p>{recentPrompt}</p>
+                            {/* <p>{recentPrompt}</p> */}
                         </div>
                         <div className="result-data">
                             {/* <img className="result-data-icon" src={assets.gemini_icon} alt=""/> */}
@@ -116,7 +97,7 @@ const Main = () => {
                         </div>
                     </div>
                 }
-                <div className="main-bottom">
+                <div className="fixed left-0 bottom-0 w-full mx-2">
                     <div className="search-box mb-10">
                         <textarea rows={rows} onChange={(e) => setInput(e.target.value)}
                                   onKeyUp={(e) => {
