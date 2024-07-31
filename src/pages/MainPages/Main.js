@@ -1,32 +1,14 @@
-import React, {useContext, useEffect, useRef, useState} from 'react';
-import './Main.css';
-// import {assets} from "../../assets/assets.js";
-import {Context} from "../context/Context.jsx";
+import { Box, Button, Center, Flex, Heading, Skeleton, SkeletonText, Text } from '@chakra-ui/react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
+import { Context } from '../../context/Context';
+import { isMobile, isMobileOnly } from 'react-device-detect';
 import { BiSend } from 'react-icons/bi';
-import pdfToText from 'react-pdftotext';
-import { useToast } from '@chakra-ui/react';
 
-const Main = () => {
+export default function MainPage() {
     const {onSent, recentPrompt, showResult, loading, resultData, setInput, input, file, pdfTxt, setPdfTxt, setFile} = useContext(Context);
     const resultRef = useRef(null);
     const [rows, setRows] = useState(1);
-    const toast = useToast()
     // const {file, pdfTxt, setPdfTxt} = useContext(ContextProvider)
-
-
-    const SummarizeFile = () => {
-        if (file===null){
-            toast({
-                title: 'Add a PDF File',
-                // description: "We've created your account for you.",
-                status: 'error',
-                duration: 9000,
-                isClosable: true,
-              })
-        } else {
-        onSent()
-        }
-    }
     
 
     useEffect(() => {
@@ -48,26 +30,21 @@ const Main = () => {
             resultRef.current.scrollTop = resultRef.current.scrollHeight;
         }
     }, [resultData]);
-    // useEffect(()=>{
-    //     if (input && pdfTxt) {
-    //         onSent();
-    //       }
-    // },[input, pdfTxt])
+  return (
+    <div>
+        {/* Nav Section */}
+        <Box shadow={"md"} className='px-4 sticky top-0 bg-white'>
+        <Flex justifyContent={"space-between"} alignItems={"center"} className='py-3'>
+            <Heading color="#1A1D23">AISumma</Heading>
 
-    return (
-        <main className="main w-full">
-            <nav className="nav">
-                <p className='text-2xl font-semibold'>AISumma</p>
-                {/* <img src={assets.user_icon} alt=""/> */}
-            </nav>
-            
-            <div className="main-containe">
-
-                {!showResult
-                    ? <>
-                        <div className='w-full'>
+            <Button>Summarize now</Button>
+        </Flex>
+        </Box>
+        {/* Upload PDF / Main Content */}
+{!showResult?<main className={'py-5 px-4 gap-5 flex flex-col lg:flex-row items-center justify-between'}>
+        <div className='w-full'>
         {/* <span className='font-bold text-[15px]'>Upload PDF Document</span> */}
-        <main className='w-full max-w-lg flex items-center justify-center'>
+        <main className='w-full flex items-center justify-center'>
         <label for="uploadFile1"
       class="bg-white text-gray-500 font-semibold text-base rounded w-full h-52 flex flex-col items-center justify-center cursor-pointer border-2 border-gray-300 border-dashed mx-auto font-[sans-serif]">
       {file ? <div className="mt-4 flex items-center">
@@ -93,28 +70,25 @@ const Main = () => {
         </main>
         {/* <PdfToImages pdfFile={"https://www.kdkce.edu.in/pdf/ADSD_VII_Sem.pdf"}/> */}
     </div>
-                    </>
-                    :
-                    <div className='result' ref={resultRef}>
-                        <div className="result-title">
-                            {/* <img src={assets.user_icon} alt=""/> */}
-                            {/* <p>{recentPrompt}</p> */}
-                        </div>
-                        <div className="result-data">
-                            {/* <img className="result-data-icon" src={assets.gemini_icon} alt=""/> */}
-                            {loading ?
-                                <div className='loader'>
-                                    <hr/>
-                                    <hr/>
-                                    <hr/>
-                                </div>
-                                :
-                                <p dangerouslySetInnerHTML={{__html: resultData}}></p>
-                            }
-                        </div>
-                    </div>
-                }
-                <div className="fixed left-0 bottom-0 w-full mx-2">
+    <Box>
+        <Flex gap={5}>
+            <Button onClick={() => onSent()}>Summarize</Button>
+            <Button>Ask Questions</Button>
+        </Flex>
+    </Box>
+    </main>:<Box>
+        {loading?<Box className='px-4 py-3 flex flex-col justify-center items-center'>
+            <SkeletonText noOfLines={4} spacing='4' skeletonHeight='2'/>
+        </Box>:<Box className='px-4 py-3 pb-56 lg:pb-32'>
+            <Center>
+            <Heading>Summary</Heading>
+            </Center>
+            <Text dangerouslySetInnerHTML={{__html: resultData}} className='leading-relaxed text-lg'/>
+            </Box>}
+        </Box>}
+
+        {/* Footer */}
+        {showResult?<div className="fixed bottom-0 w-full px-2 bg-white pt-5 rounded-t-md">
                     <div className="search-box mb-10">
                         <textarea rows={rows} onChange={(e) => setInput(e.target.value)}
                                   onKeyUp={(e) => {
@@ -129,17 +103,15 @@ const Main = () => {
                         <div className="icon-container">
                             {/* <button><img src={assets.gallery_icon} alt=""/></button> */}
                             {/* <button><img src={assets.mic_icon} alt=""/></button> */}
-                            <button type="submit" onClick={() => SummarizeFile()}><BiSend/></button>
+                            <button type="submit" onClick={() => onSent()}><BiSend/></button>
                         </div>
                     </div>
                     {/* <p className="bottom-info">
                         Gemini may display inaccurate info, including about people, so double-check its responses.
                         <a href="#">Your privacy and Gemini Apps</a>
                     </p> */}
-                </div>
-            </div>
-        </main>
-    );
+                </div>:null}
+            {/* </div> */}
+    </div>
+  )
 }
-
-export default Main;
