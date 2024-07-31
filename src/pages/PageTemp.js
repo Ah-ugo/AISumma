@@ -15,11 +15,11 @@ const Main = () => {
 
 
     const SummarizeFile = () => {
-        if (file===null){
+        if (pdfTxt===null){
             toast({
                 title: 'Add a PDF File',
-                // description: "We've created your account for you.",
-                status: 'error',
+                description: "We've created your account for you.",
+                status: 'success',
                 duration: 9000,
                 isClosable: true,
               })

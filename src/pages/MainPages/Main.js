@@ -1,4 +1,4 @@
-import { Box, Button, Center, Flex, Heading, Skeleton, SkeletonText, Text } from '@chakra-ui/react'
+import { Box, Button, Center, Flex, Heading, Skeleton, SkeletonText, Text, useToast } from '@chakra-ui/react'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Context } from '../../context/Context';
 import { isMobile, isMobileOnly } from 'react-device-detect';
@@ -8,8 +8,21 @@ export default function MainPage() {
     const {onSent, recentPrompt, showResult, loading, resultData, setInput, input, file, pdfTxt, setPdfTxt, setFile} = useContext(Context);
     const resultRef = useRef(null);
     const [rows, setRows] = useState(1);
+    const toast = useToast()
     // const {file, pdfTxt, setPdfTxt} = useContext(ContextProvider)
-    
+    const SummarizeFile = () => {
+        if (!file){
+            toast({
+                title: 'Add a PDF File',
+                // description: "We've created your account for you.",
+                status: 'error',
+                duration: 5000,
+                isClosable: true,
+              })
+        } else {
+        onSent()
+        }
+    } 
 
     useEffect(() => {
         const updateRows = () => {
@@ -72,12 +85,12 @@ export default function MainPage() {
     </div>
     <Box>
         <Flex gap={5}>
-            <Button onClick={() => onSent()}>Summarize</Button>
+            <Button onClick={() => SummarizeFile()}>Summarize</Button>
             <Button>Ask Questions</Button>
         </Flex>
     </Box>
     </main>:<Box>
-        {loading?<Box className='px-4 py-3 flex flex-col justify-center items-center'>
+        {loading?<Box className='px-4 py-3 flex flex-col'>
             <SkeletonText noOfLines={4} spacing='4' skeletonHeight='2'/>
         </Box>:<Box className='px-4 py-3 pb-56 lg:pb-32'>
             <Center>
@@ -93,7 +106,7 @@ export default function MainPage() {
                         <textarea rows={rows} onChange={(e) => setInput(e.target.value)}
                                   onKeyUp={(e) => {
                                       if (e.key === 'Enter') {
-                                          onSent();
+                                        SummarizeFile();
                                       }
                                   }}
                                   value={input}
@@ -103,7 +116,7 @@ export default function MainPage() {
                         <div className="icon-container">
                             {/* <button><img src={assets.gallery_icon} alt=""/></button> */}
                             {/* <button><img src={assets.mic_icon} alt=""/></button> */}
-                            <button type="submit" onClick={() => onSent()}><BiSend/></button>
+                            <button type="submit" onClick={() => SummarizeFile()}><BiSend/></button>
                         </div>
                     </div>
                     {/* <p className="bottom-info">
