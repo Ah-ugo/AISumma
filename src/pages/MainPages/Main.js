@@ -3,13 +3,19 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Context } from '../../context/Context';
 import { isMobile, isMobileOnly } from 'react-device-detect';
 import { BiSend } from 'react-icons/bi';
+import { HiMiniXMark, HiOutlineBars3CenterLeft } from "react-icons/hi2";
+import axios from 'axios';
+
 
 export default function MainPage() {
-    const {onSent, recentPrompt, showResult, loading, resultData, setInput, input, file, pdfTxt, setPdfTxt, setFile} = useContext(Context);
+    const {onSent, recentPrompt, infoResults, setInfoResults, showResult, loading, resultData, setInput, input, file, pdfTxt, setPdfTxt, setFile, userId, setUserId} = useContext(Context);
     const resultRef = useRef(null);
     const [rows, setRows] = useState(1);
     const toast = useToast()
+    const [showSider, setShowSider] = useState(true)
     // const {file, pdfTxt, setPdfTxt} = useContext(ContextProvider)
+
+    
     const SummarizeFile = () => {
         if (!file){
             toast({
@@ -21,6 +27,9 @@ export default function MainPage() {
               })
         } else {
         onSent()
+        // if(resultData){
+            // UploadDetails()
+        // }
         }
     } 
 
@@ -34,21 +43,62 @@ export default function MainPage() {
         };
 
         updateRows();
+        if (isMobile){
+            setShowSider(false)
+        }
         window.addEventListener('resize', updateRows);
         return () => window.removeEventListener('resize', updateRows);
+
     }, []);
 
     useEffect(() => {
         if (resultRef.current) {
             resultRef.current.scrollTop = resultRef.current.scrollHeight;
         }
+        // if (resultData){
+        //     UploadDetails()
+        // }
     }, [resultData]);
   return (
-    <div>
+    <div className="flex flex-row">
+        {showSider ?<aside class="flex flex-col w-64 h-screen px-5 pb-8 overflow-y-auto bg-white border-r rtl:border-r-0 rtl:border-l dark:bg-gray-900 dark:border-gray-700 fixed top-0 bottom-0 left-0 z-10">
+    <a href="#" className='flex w-full justify-between'>
+        <div></div>
+        {isMobile ? <button onClick={()=>setShowSider(!showSider)}><HiMiniXMark size={30} /></button>:null}
+        
+    </a>
+
+    <div class="flex flex-col justify-between flex-1 mt-6">
+        <nav class="-mx-3 space-y-6 ">
+            <div class="space-y-3 ">
+                <label class="px-3 text-xs text-gray-500 uppercase dark:text-gray-400">history</label>
+
+                {infoResults.map(res=>{
+                    return (
+                    <a class="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-200 hover:text-gray-700" href="#">
+                    
+
+                    <span class="mx-2 text-sm font-medium">{res.pdf_txt?.slice(0,30)}</span>
+                </a>
+                    )
+                })}
+
+            </div>
+
+            
+        </nav>
+    </div>
+</aside>: null}
+    
+    <div className={`w-full ${showSider?"lg:ml-64":"ml-0"}`}>
+
         {/* Nav Section */}
         <Box shadow={"md"} className='px-4 sticky top-0 bg-white'>
         <Flex justifyContent={"space-between"} alignItems={"center"} className='py-3'>
+            <Box className='flex items-center gap-5'>
+                {showSider ? <button onClick={()=>setShowSider(!showSider)}><HiMiniXMark size={30} /></button> : <button onClick={()=>setShowSider(!showSider)}><HiOutlineBars3CenterLeft size={30} /></button>}
             <Heading color="#1A1D23">AISumma</Heading>
+            </Box>
 
             <Button>Summarize now</Button>
         </Flex>
@@ -125,6 +175,7 @@ export default function MainPage() {
                     </p> */}
                 </div>:null}
             {/* </div> */}
+    </div>
     </div>
   )
 }
