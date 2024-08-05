@@ -136,7 +136,7 @@ export default function Register() {
               type="text"
               id="FirstName"
               name="first_name"
-              className="block w-full mt-1 px-4 py-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-blue-300"
+              className="block w-full mt-1 px-4 py-2 text-gray-700 bg-white border rounded-lg focus:border-blue-400 focus:ring-opacity-40  focus:outline-none focus:ring focus:ring-blue-300"
             />
           </div>
 
@@ -149,7 +149,7 @@ export default function Register() {
               type="text"
               id="LastName"
               name="last_name"
-              className="block w-full mt-1 px-4 py-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-blue-300"
+              className="block w-full mt-1 px-4 py-2 text-gray-700 bg-white border rounded-lg focus:border-blue-400 focus:ring-opacity-40 focus:outline-none focus:ring focus:ring-blue-300"
             />
           </div>
 
@@ -161,7 +161,7 @@ export default function Register() {
               id="Email"
               name="email"
               onChange={(e)=>setAuth({...auth, email: e.target.value})}
-              className="block w-full mt-1 px-4 py-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-blue-300"
+              className="block w-full mt-1 px-4 py-2 text-gray-700 bg-white border rounded-lg focus:border-blue-400 focus:ring-opacity-40 focus:outline-none focus:ring focus:ring-blue-300"
             />
           </div>
 
@@ -173,7 +173,7 @@ export default function Register() {
               id="Password"
               name="password"
               onChange={(e)=>{setAuth({...auth, password:e.target.value})}}
-              className="block w-full mt-1 px-4 py-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-blue-300"
+              className="block w-full mt-1 px-4 py-2 text-gray-700 bg-white border rounded-lg focus:border-blue-400 focus:ring-opacity-40 focus:outline-none focus:ring focus:ring-blue-300"
               />
           </div>
 
@@ -187,7 +187,7 @@ export default function Register() {
               id="PasswordConfirmation"
               name="password_confirmation"
               onChange={(e)=>{setAuth({...auth, passwordConfirmation:e.target.value})}}
-              className="block w-full mt-1 px-4 py-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-blue-300"
+              className="block w-full mt-1 px-4 py-2 text-gray-700 bg-white border rounded-lg  focus:border-blue-400 focus:ring-opacity-40 focus:outline-none focus:ring focus:ring-blue-300"
             />
           </div>
 

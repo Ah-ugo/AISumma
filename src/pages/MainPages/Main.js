@@ -77,7 +77,7 @@ export default function MainPage() {
     }, [resultData]);
   return (
     <div className="flex flex-row">
-        {showSider ?<aside class="flex flex-col w-64 h-screen px-5 pb-8 overflow-y-auto bg-white border-r rtl:border-r-0 rtl:border-l dark:bg-gray-900 dark:border-gray-700 fixed top-0 bottom-0 left-0 z-10">
+        {showSider ?<aside class="flex flex-col w-64 h-screen px-5 pb-8 overflow-y-auto bg-white border-r rtl:border-r-0 rtl:border-l fixed top-0 bottom-0 left-0 z-10">
     <a href="#" className='flex w-full justify-between'>
         <div></div>
         {isMobile || isTablet ? <button onClick={()=>setShowSider(!showSider)}><HiMiniXMark size={30} /></button>:null}
@@ -87,11 +87,11 @@ export default function MainPage() {
     <div class="flex flex-col justify-between flex-1 mt-6">
         <nav class="-mx-3 space-y-6 ">
             <div class="space-y-3 ">
-                <label class="px-3 text-xs text-gray-500 uppercase dark:text-gray-400">history</label>
+                <label class="px-3 text-xs text-gray-500 uppercase">history</label>
 
                 {infoResults.map(res=>{
                     return (
-                    <a class="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-200 hover:text-gray-700" href="#">
+                    <a class="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg hover:bg-gray-100  hover:text-gray-700" href="#">
                     
 
                     <span class="mx-2 text-sm font-medium">{res.pdf_txt?.slice(0,30)}</span>
@@ -127,7 +127,7 @@ export default function MainPage() {
         <label for="uploadFile1"
       class="bg-white text-gray-500 font-semibold text-base rounded w-full h-52 flex flex-col items-center justify-center cursor-pointer border-2 border-gray-300 border-dashed mx-auto font-[sans-serif]">
       {file ? <div className="mt-4 flex items-center">
-      <svg class="w-6 h-6 text-gray-500 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+      <svg class="w-6 h-6 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
   <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M10 3v4a1 1 0 0 1-1 1H5m14-4v16a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V7.914a1 1 0 0 1 .293-.707l3.914-3.914A1 1 0 0 1 9.914 3H18a1 1 0 0 1 1 1Z"/>
 </svg>
 
@@ -160,7 +160,7 @@ export default function MainPage() {
             <SkeletonText noOfLines={4} spacing='4' skeletonHeight='2'/>
         </Box>:<Box className='px-4 py-3 pb-56 lg:pb-32'>
             <Center>
-            <Heading>Summary</Heading>
+            {/* <Heading>Summary</Heading> */}
             </Center>
             <div dangerouslySetInnerHTML={getMarkup()} className='leading-relaxed text-lg'/>
             </Box>}
