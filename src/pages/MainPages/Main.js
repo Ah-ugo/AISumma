@@ -168,7 +168,7 @@ export default function MainPage() {
 
         {/* Footer */}
         {showResult?<div style={widthStyle} className="fixed custom-width box-border bottom-0 w-full max-w-full px-2 bg-white pt-5 rounded-t-md">
-                    <div className="search-box mb-10">
+                    <div style={{width: "100%"}} className="search-box mb-10 w-full">
                         <textarea rows={rows} onChange={(e) => setInput(e.target.value)}
                                   onKeyUp={(e) => {
                                       if (e.key === 'Enter') {
@@ -177,6 +177,7 @@ export default function MainPage() {
                                   }}
                                   value={input}
                                   type="text"
+                                  className='w-full'
                                   placeholder="Enter a prompt here"
                         />
                         <div className="icon-container">

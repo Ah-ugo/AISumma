@@ -98,7 +98,7 @@ const GetDetails = async() => {
       
           let response;
           if(!input){
-            prompt = "Assuming you are an examiner, interviewer, etc and I am preparing for an exam, interview, etc summarize "
+            prompt = "Summarize the main ideas and key points of the following text, focusing on the most important information and concepts, and present it in a clear and concise manner: "
             // setInput(prompt)
           } else {
             prompt = input
