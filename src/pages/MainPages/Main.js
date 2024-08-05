@@ -1,10 +1,12 @@
 import { Box, Button, Center, Flex, Heading, Skeleton, SkeletonText, Text, useToast } from '@chakra-ui/react'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Context } from '../../context/Context';
-import { isMobile, isMobileOnly } from 'react-device-detect';
+import { isMobile, isMobileOnly, isTablet } from 'react-device-detect';
 import { BiSend } from 'react-icons/bi';
 import { HiMiniXMark, HiOutlineBars3CenterLeft } from "react-icons/hi2";
 import axios from 'axios';
+import { marked } from 'marked';
+import DOMPurify from 'dompurify';
 
 
 export default function MainPage() {
@@ -14,6 +16,8 @@ export default function MainPage() {
     const toast = useToast()
     const [showSider, setShowSider] = useState(true)
     // const {file, pdfTxt, setPdfTxt} = useContext(ContextProvider)
+
+    const widthStyle = showSider ? { width: 'calc(100% - 16rem)' } : { width: '100%' };
 
     
     const SummarizeFile = () => {
@@ -32,6 +36,18 @@ export default function MainPage() {
         // }
         }
     } 
+
+
+    const LogOut = () => {
+        localStorage.removeItem("session")
+        localStorage.removeItem("userId")
+        window.location.reload()
+    }
+
+    const getMarkup = () => {
+        const rawMarkup = marked(resultData, { sanitize: false });
+        return { __html: DOMPurify.sanitize(rawMarkup) };
+      };
 
     useEffect(() => {
         const updateRows = () => {
@@ -64,7 +80,7 @@ export default function MainPage() {
         {showSider ?<aside class="flex flex-col w-64 h-screen px-5 pb-8 overflow-y-auto bg-white border-r rtl:border-r-0 rtl:border-l dark:bg-gray-900 dark:border-gray-700 fixed top-0 bottom-0 left-0 z-10">
     <a href="#" className='flex w-full justify-between'>
         <div></div>
-        {isMobile ? <button onClick={()=>setShowSider(!showSider)}><HiMiniXMark size={30} /></button>:null}
+        {isMobile || isTablet ? <button onClick={()=>setShowSider(!showSider)}><HiMiniXMark size={30} /></button>:null}
         
     </a>
 
@@ -100,7 +116,7 @@ export default function MainPage() {
             <Heading color="#1A1D23">AISumma</Heading>
             </Box>
 
-            <Button>Summarize now</Button>
+            <Button onClick={LogOut}>Log Out</Button>
         </Flex>
         </Box>
         {/* Upload PDF / Main Content */}
@@ -146,12 +162,12 @@ export default function MainPage() {
             <Center>
             <Heading>Summary</Heading>
             </Center>
-            <Text dangerouslySetInnerHTML={{__html: resultData}} className='leading-relaxed text-lg'/>
+            <div dangerouslySetInnerHTML={getMarkup()} className='leading-relaxed text-lg'/>
             </Box>}
         </Box>}
 
         {/* Footer */}
-        {showResult?<div className="fixed bottom-0 w-full px-2 bg-white pt-5 rounded-t-md">
+        {showResult?<div style={widthStyle} className="fixed custom-width box-border bottom-0 w-full max-w-full px-2 bg-white pt-5 rounded-t-md">
                     <div className="search-box mb-10">
                         <textarea rows={rows} onChange={(e) => setInput(e.target.value)}
                                   onKeyUp={(e) => {

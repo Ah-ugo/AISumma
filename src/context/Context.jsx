@@ -23,8 +23,10 @@ const ContextProvider = (props) => {
     const [resultData, setResultData] = useState("");
     const [file, setFile] = useState()
     const [pdfTxt, setPdfTxt] = useState("")
-    const [userId, setUserId] = useState("VDGZ5eRaP7")
+    // const [userId, setUserId] = useState("VDGZ5eRaP7")
     const [infoResults, setInfoResults] = useState([])
+    const userId = localStorage.getItem("userId")
+    const sessionId = localStorage.getItem("session")
 
     const delayPara = (index, nextWord) => {
         setTimeout(function () {
@@ -45,7 +47,7 @@ const ContextProvider = (props) => {
             console.log(file, "file===")
           // Assuming 'file' is already a File instance or base64 data
           const parseFile = new Parse.File(file?.name, file);
-          const pdfFile = await parseFile.save({ sessionToken: "r:860fb10d27c6a8cbf25ef2bdb4cd59ea" });
+          const pdfFile = await parseFile.save({ sessionToken: sessionId });
       
           // If you just have the userId string, create a pointer like this
           let userPointer = new Parse.Object("_User");
@@ -75,7 +77,7 @@ const GetDetails = async() => {
   "X-Parse-REST-API-Key": "4zjh2OUB1MLRUxoADsfVB0BHPWFvTbXfCh6roC68",
   "Content-Type": "application/json"
     }
-   await axios.get("https://parseapi.back4app.com/classes/contents", {headers}).then(res=>{
+   await axios.get(`https://parseapi.back4app.com/classes/contents?where=%7B%20%20%20%22user%22%3A%20%7B%20%20%20%20%20%22__type%22%3A%20%22Pointer%22%2C%20%20%20%20%20%22className%22%3A%20%22_User%22%2C%20%20%20%20%20%22objectId%22%3A%20%22${userId}%22%20%20%20%7D%20%7D`, {headers}).then(res=>{
     console.log(res.data?.results)
     setInfoResults(res.data?.results)
    }).catch(err=>{console.log(err)})
@@ -95,9 +97,11 @@ const GetDetails = async() => {
           setShowResult(true);
       
           let response;
-          if(!prompt){
+          if(!input){
             prompt = "Assuming you are an examiner, interviewer, etc and I am preparing for an exam, interview, etc summarize "
             // setInput(prompt)
+          } else {
+            prompt = input
           }
           if (prompt && text) {
             response = await runChat(prompt, text);
@@ -163,7 +167,7 @@ const GetDetails = async() => {
         pdfTxt,
         setPdfTxt,
         userId,
-        setUserId,
+        // setUserId,
         infoResults,
         setInfoResults
     }

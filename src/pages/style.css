@@ -5,6 +5,9 @@
     --accent-color: #076EFF;
     color: #202124;
   } */
+  body {
+    box-sizing: border-box;
+  }
   
   .main,
   .api-key-banner {
