@@ -11,7 +11,7 @@ import { useLocation } from 'react-router-dom';
 
 
 export default function MainPage() {
-    const {onSent, recentPrompt, showResult, loading, resultData, setInput, input, file, pdfTxt, setPdfTxt, setFile, userId, setUserId} = useContext(Context);
+    const {onSent, recentPrompt, QA, setQA, showResult, loading, resultData, setInput, input, file, pdfTxt, setPdfTxt, setFile, userId, setUserId} = useContext(Context);
     const resultRef = useRef(null);
     const [rows, setRows] = useState(1);
     const toast = useToast()
@@ -24,7 +24,7 @@ export default function MainPage() {
     const widthStyle = showSider ? { width: 'calc(100% - 16rem)' } : { width: '100%' };
 
     
-    const SummarizeFile = () => {
+    const SummarizeFile = (prompt) => {
         if (!file){
             toast({
                 title: 'Add a PDF File',
@@ -34,7 +34,7 @@ export default function MainPage() {
                 isClosable: true,
               })
         } else {
-        onSent()
+        onSent(prompt)
         // if(resultData){
             // UploadDetails()
         // }
@@ -212,8 +212,8 @@ export default function MainPage() {
     </div>
     <Box>
         <Flex gap={5}>
-            <Button onClick={() => SummarizeFile()}>Summarize</Button>
-            <Button>Ask Questions</Button>
+            <Button onClick={() => SummarizeFile("Summarize the main ideas and key points of the following text, focusing on the most important information and concepts, and present it in a clear and concise manner: ")}>Summarize</Button>
+            <Button onClick={()=>{SummarizeFile("Generate Q&A pairs based on the following: ")}}>Generate Q&A</Button>
         </Flex>
     </Box>
     </main>:<Box>

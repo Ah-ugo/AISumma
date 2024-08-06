@@ -25,6 +25,7 @@ const ContextProvider = (props) => {
     const [pdfTxt, setPdfTxt] = useState("")
     // const [userId, setUserId] = useState("VDGZ5eRaP7")
     const [infoResults, setInfoResults] = useState([])
+    const [QA, setQA] = useState(false)
     const userId = localStorage.getItem("userId")
     const sessionId = localStorage.getItem("session")
 
@@ -98,12 +99,13 @@ const GetDetails = async() => {
           setShowResult(true);
       
           let response;
-          if(!input){
-            prompt = "Summarize the main ideas and key points of the following text, focusing on the most important information and concepts, and present it in a clear and concise manner: "
-            // setInput(prompt)
-          } else {
-            prompt = input
-          }
+          // if(!input){
+          //   prompt = "Summarize the main ideas and key points of the following text, focusing on the most important information and concepts, and present it in a clear and concise manner: "
+          //   // setInput(prompt)
+          
+          // } else {
+          //   prompt = input
+          // }
           if (prompt && text) {
             response = await runChat(prompt, text);
             setRecentPrompt(prompt + " " + text);
@@ -172,6 +174,8 @@ const GetDetails = async() => {
         infoResults,
         setInfoResults,
         GetDetails,
+        QA,
+        setQA
     }
     return (
         <Context.Provider value={contextValue}>
