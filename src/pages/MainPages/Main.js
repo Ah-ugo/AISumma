@@ -2,19 +2,23 @@ import { Box, Button, Center, Flex, Heading, Skeleton, SkeletonText, Text, useTo
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Context } from '../../context/Context';
 import { isMobile, isMobileOnly, isTablet } from 'react-device-detect';
-import { BiSend } from 'react-icons/bi';
+import { BiArrowBack, BiDownload, BiSend } from 'react-icons/bi';
 import { HiMiniXMark, HiOutlineBars3CenterLeft } from "react-icons/hi2";
 import axios from 'axios';
 import { marked } from 'marked';
 import DOMPurify from 'dompurify';
+import { useLocation } from 'react-router-dom';
 
 
 export default function MainPage() {
-    const {onSent, recentPrompt, infoResults, setInfoResults, showResult, loading, resultData, setInput, input, file, pdfTxt, setPdfTxt, setFile, userId, setUserId} = useContext(Context);
+    const {onSent, recentPrompt, showResult, loading, resultData, setInput, input, file, pdfTxt, setPdfTxt, setFile, userId, setUserId} = useContext(Context);
     const resultRef = useRef(null);
     const [rows, setRows] = useState(1);
     const toast = useToast()
     const [showSider, setShowSider] = useState(true)
+    const [infoResults, setInfoResults] = useState([])
+    const location = useLocation()
+    const [activeResult, setActiveResult] = useState(null);
     // const {file, pdfTxt, setPdfTxt} = useContext(ContextProvider)
 
     const widthStyle = showSider ? { width: 'calc(100% - 16rem)' } : { width: '100%' };
@@ -37,6 +41,26 @@ export default function MainPage() {
         }
     } 
 
+    const handleFileClick = (url) => {
+        window.open(url, '_blank');
+      };
+
+
+      const GetDetails = async() => {
+        const userId = localStorage.getItem("userId")
+        if(!userId) return;
+          const headers = {
+              "accept": "application/json",
+        "X-Parse-Application-Id": "Ejhu0gpyPCKAo7Z4AA1yTZm0utJbCqPtr3dRPwt3",
+        "X-Parse-REST-API-Key": "4zjh2OUB1MLRUxoADsfVB0BHPWFvTbXfCh6roC68",
+        "Content-Type": "application/json"
+          }
+         await axios.get(`https://parseapi.back4app.com/classes/contents?where=%7B%20%20%20%22user%22%3A%20%7B%20%20%20%20%20%22__type%22%3A%20%22Pointer%22%2C%20%20%20%20%20%22className%22%3A%20%22_User%22%2C%20%20%20%20%20%22objectId%22%3A%20%22${userId}%22%20%20%20%7D%20%7D`, {headers}).then(res=>{
+          console.log(res.data?.results)
+          setInfoResults(res.data?.results)
+         }).catch(err=>{console.log(err)})
+      }
+
 
     const LogOut = () => {
         localStorage.removeItem("session")
@@ -48,7 +72,10 @@ export default function MainPage() {
         const rawMarkup = marked(resultData, { sanitize: false });
         return { __html: DOMPurify.sanitize(rawMarkup) };
       };
-
+      const getMarkup2 = (infoRes) => {
+        const rawMarkup = marked(infoRes, { sanitize: false });
+        return { __html: DOMPurify.sanitize(rawMarkup) };
+      };
     useEffect(() => {
         const updateRows = () => {
             if (window.innerWidth <= 600) {
@@ -57,6 +84,9 @@ export default function MainPage() {
                 setRows(1);
             }
         };
+        // localStorage.getItem("userId")
+
+        // GetDetails()
 
         updateRows();
         if (isMobile){
@@ -67,14 +97,24 @@ export default function MainPage() {
 
     }, []);
 
+    useEffect(()=>{
+        // if (location.pathname === "/") {
+            GetDetails();
+        //   }
+    },[file, resultData, userId])
+
     useEffect(() => {
         if (resultRef.current) {
             resultRef.current.scrollTop = resultRef.current.scrollHeight;
         }
-        // if (resultData){
-        //     UploadDetails()
-        // }
+        if (resultData){
+            GetDetails()
+        }
     }, [resultData]);
+    const handleResultClick = (result) => {
+        setActiveResult(result === activeResult ? null : result);
+        console.log(activeResult?.summary)
+      };
   return (
     <div className="flex flex-row">
         {showSider ?<aside class="flex flex-col w-64 h-screen px-5 pb-8 overflow-y-auto bg-white border-r rtl:border-r-0 rtl:border-l fixed top-0 bottom-0 left-0 z-10">
@@ -91,13 +131,13 @@ export default function MainPage() {
 
                 {infoResults.map(res=>{
                     return (
-                    <a class="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg hover:bg-gray-100  hover:text-gray-700" href="#">
+                    <a onClick={()=>handleResultClick(res)} class="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg hover:bg-gray-100  hover:text-gray-700" href="#">
                     
 
                     <span class="mx-2 text-sm font-medium">{res.pdf_txt?.slice(0,30)}</span>
                 </a>
                     )
-                })}
+                }).reverse()}
 
             </div>
 
@@ -109,7 +149,7 @@ export default function MainPage() {
     <div className={`w-full ${showSider?"lg:ml-64":"ml-0"}`}>
 
         {/* Nav Section */}
-        <Box shadow={"md"} className='px-4 sticky top-0 bg-white'>
+        <Box shadow={"md"} className='px-4 sticky top-0 bg-white z-50'>
         <Flex justifyContent={"space-between"} alignItems={"center"} className='py-3'>
             <Box className='flex items-center gap-5'>
                 {showSider ? <button onClick={()=>setShowSider(!showSider)}><HiMiniXMark size={30} /></button> : <button onClick={()=>setShowSider(!showSider)}><HiOutlineBars3CenterLeft size={30} /></button>}
@@ -119,6 +159,27 @@ export default function MainPage() {
             <Button onClick={LogOut}>Log Out</Button>
         </Flex>
         </Box>
+       {activeResult ? <div>
+
+{infoResults.map((res, index) => (
+    <div key={index}>
+      {activeResult === res && (
+        <div>
+            <Box className='my-4 mx-2'>
+                <Flex justifyContent={"space-between"} alignItems={"center"}>
+                    <button onClick={()=>setActiveResult(null)}><BiArrowBack size={25}/></button>
+                    <Button onClick={()=>handleFileClick(res?.pdf_file.url)} className='flex justify-between items-center gap-2'><BiDownload/> Download PDF</Button>
+                </Flex>
+            </Box>
+        <div
+          className="p-3  rounded-lg"
+          dangerouslySetInnerHTML={getMarkup2(res.summary)}
+        />
+        </div>
+      )}
+    </div>
+  ))}
+</div> : <div>
         {/* Upload PDF / Main Content */}
 {!showResult?<main className={'py-5 px-4 gap-5 flex flex-col lg:flex-row items-center justify-between'}>
         <div className='w-full'>
@@ -191,7 +252,7 @@ export default function MainPage() {
                         <a href="#">Your privacy and Gemini Apps</a>
                     </p> */}
                 </div>:null}
-            {/* </div> */}
+            </div>}
     </div>
     </div>
   )

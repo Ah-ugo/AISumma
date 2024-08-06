@@ -1,7 +1,8 @@
 import { Center, CircularProgress, Heading, useToast } from '@chakra-ui/react'
 import axios from 'axios'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { Context } from '../../context/Context'
 
 export default function Register() {
     const [auth, setAuth] = useState({
@@ -9,6 +10,7 @@ export default function Register() {
         password: "",
         passwordConfirmation: ""
     })
+    const {GetDetails} = useContext(Context)
     const [loading, setLoading] = useState(false)
     const toast = useToast()
     const navigate = useNavigate()
@@ -43,6 +45,7 @@ export default function Register() {
         await axios.post(`https://parseapi.back4app.com/users`,varia, {headers}).then(res=>{
             localStorage.setItem("session", res.data?.sessionToken)
             localStorage.setItem("userId", res.data?.objectId)
+            GetDetails()
             console.log(res)
             setLoading(false)
             if(res.status === 201) {

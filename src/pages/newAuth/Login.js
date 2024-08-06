@@ -1,13 +1,16 @@
 import { Center, CircularProgress, Heading, useToast } from '@chakra-ui/react'
 import axios from 'axios'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { Context } from '../../context/Context'
 
 export default function Login() {
 const [auth, setAuth] = useState({
     email: "",
     password: ""
 })
+
+const {GetDetails} = useContext(Context)
 const [loading, setLoading] = useState(false)
 const toast = useToast()
 const navigate = useNavigate()
@@ -23,6 +26,7 @@ const navigate = useNavigate()
         await axios.get(`https://parseapi.back4app.com/login?username=${auth.email}&password=${auth.password}`,{headers}).then(res=>{
             localStorage.setItem("session", res.data?.sessionToken)
             localStorage.setItem("userId", res.data?.objectId)
+            GetDetails()
             console.log(res)
             setLoading(false)
             if(res.status === 200) {

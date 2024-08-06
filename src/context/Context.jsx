@@ -71,6 +71,7 @@ const ContextProvider = (props) => {
 // }
 
 const GetDetails = async() => {
+  if(!userId) return;
     const headers = {
         "accept": "application/json",
   "X-Parse-Application-Id": "Ejhu0gpyPCKAo7Z4AA1yTZm0utJbCqPtr3dRPwt3",
@@ -146,9 +147,9 @@ const GetDetails = async() => {
           setLoading(false);
         }
       };
-      useEffect(()=>{
-        GetDetails()
-      },[])
+      // useEffect(()=>{
+      //   localStorage.getItem("userId")
+      // },[])
 
     const contextValue = {
         prevPrompts,
@@ -169,7 +170,8 @@ const GetDetails = async() => {
         userId,
         // setUserId,
         infoResults,
-        setInfoResults
+        setInfoResults,
+        GetDetails,
     }
     return (
         <Context.Provider value={contextValue}>

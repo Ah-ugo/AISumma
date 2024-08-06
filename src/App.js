@@ -10,6 +10,7 @@ import MainPage from './pages/MainPages/Main';
 import Login from './pages/newAuth/Login';
 import Register from './pages/newAuth/Register';
 import PrivateRoute from './PrivateRoute';
+import History from './pages/MainPages/History';
 
 function App() {
   return (
@@ -21,7 +22,7 @@ function App() {
               <Route path='/login' element={<Login />} />
               <Route path='/register' element={<Register />} />
               <Route path='/' element={<PrivateRoute><MainPage /></PrivateRoute>} />
-              <Route path='/home' element={<PrivateRoute><PageTemp /></PrivateRoute>} />
+              <Route path='/history' element={<PrivateRoute><History /></PrivateRoute>} />
               <Route path='/img' element={<PrivateRoute><TestImage /></PrivateRoute>} />
             </Routes>
           </BrowserRouter>
